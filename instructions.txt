@@ -1,0 +1,51 @@
+Your teammate Dr. Steven Strange has worked on a project that maintains, validates, and sorts
+user profiles.
+You can find his repo here: https://github.com/UCLA-CS-35L/assign5
+He recently heard two user complaints:
+
+● there is something wrong with the age calculation (some users said that their age
+was displayed incorrectly)
+
+● there is something wrong with the validation of correct passwords (some users
+said their passwords followed the rules while being flagged as invalid).
+
+Unfortunately, he didn’t pay attention in CS35L, so he didn’t use test-driven development
+(TDD) and he also did not write meaningful commit messages. It was too late when he
+realized that the project is full of bugs and he doesn’t know when they were introduced or where
+they are. So it will be very hard for you to find the commit that introduces the bugs by looking at
+the commit history.
+
+The two main goals of this assignment are:
+
+1. Making you experience the issues that result from not following best practices so that
+you don’t end up making the same mistakes in your own project.
+
+2. Letting you practice the magical tools that Git offers to allow you to succeed even in such
+a terrible situation so that you are prepared to deal with alternative Doctor Stranges in
+your own future career.
+
+Step 1: Bug Reproduction & Regression Testing
+As you learned in the debugging lecture, your first step is to reproduce the bug, so first you
+should put your testing hat on and find inputs for which the program behaves incorrectly. For this
+purpose, create new test files for these two features that should fail on the current version of the
+code but pass for the initial commit of the repo.
+
+Step 2: Bug Localization
+Then, run git bisect to identify the commits that introduce each bug.
+Hint: These two commits are different, so you need to find a way to locate the bugs individually.
+If your regression tests are correct then git bisect will tell you which commit introduced each of
+the two bugs.
+
+Step 3: Bug Fixing
+Revert both bug-introducing commits. Do not manually fix the bug and do not manually change
+the commit message for the revert commits (the autograder will look for the corresponding
+revert commit messages as by git default).
+Hint: You might have merge conflicts when trying to revert. Running your tests will help you
+identify if you have resolved all merge conflicts.
+
+Step 4: Zip the repo and submit the results
+To zip the entire git repo, call: pipenv run zip. This creates an assign5.zip file that you can
+upload to gradescope.
+
+ 
+
