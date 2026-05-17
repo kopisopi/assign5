@@ -61,6 +61,7 @@ class UserProfile:
     
     @staticmethod
     def valid_password(password: str) -> bool:
+<<<<<<< HEAD
         """Validate password meets security requirements.
         
         Password must contain: uppercase, lowercase, digit, special char, min 8 chars.
@@ -73,6 +74,10 @@ class UserProfile:
         """
         regex = r'^(?=^[A-Z])(?=.*[a-z]?)(?=.*\d)(?=.*[@$!%*?&])[A-z\d@$!%*?&]{8,}$'
         return re.match(regex, password) is not None
+=======
+        password_pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+        return re.match(password_pattern, password) is not None
+>>>>>>> parent of 6089912 (updates)
     
     @staticmethod
     def valid_dob(dob: str) -> bool:
@@ -188,6 +193,7 @@ class UserProfile:
         )
         
     def to_json(self, json_file: str) -> None:
+<<<<<<< HEAD
         """Save user profile to JSON file.
         
         Args:
@@ -211,6 +217,20 @@ class UserProfile:
                 "city": self.location.city,
                 "state": self.location.state,
                 "country": self.location.country
+=======
+        with open(json_file, 'w') as f:
+            json.dump(self.to_dict(), f, indent=4)
+
+    def to_dict(self) -> dict:
+        return {
+            'name': self.name,
+            'email': self.email,
+            'password': self.password,
+            'dob': self.dob,
+            'location': {
+                'city': self.location.city,
+                'state': self.location.state,
+                'country': self.location.country
+>>>>>>> parent of 6089912 (updates)
             }
         }
-        return profile_dict

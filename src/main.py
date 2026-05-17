@@ -40,9 +40,15 @@ def _write_output(obj, output_path: Optional[str]):
         output_path: Optional path to output file (None = stdout)
     """
     if output_path:
+<<<<<<< HEAD
         output_file_path = Path(output_path)
         with output_file_path.open(mode="w") as file_handle:
             json.dump(obj, file_handle, indent=4)
+=======
+        out_path = Path(output_path)
+        with out_path.open("w") as f:
+            json.dump(obj, f, indent=4)
+>>>>>>> parent of 6089912 (updates)
     else:
         json.dump(obj, sys.stdout, indent=4)
         sys.stdout.write('\n')
