@@ -5,15 +5,12 @@ from .location import Location
 from .user_profile import UserProfile
 
 class UserProfileManager:
-    """Manages a collection of user profiles with CRUD operations and sorting.
-    
-    Provides methods to add, remove, retrieve, and sort user profiles.
-    Profiles are stored in a dictionary keyed by email address.
-    """
+    # Initialize the manager with empty profiles dictionary
     def __init__(self):
         """Initialize an empty UserProfileManager."""
         self.user_profiles = {}
         
+    # Add a profile to the manager
     def add_profile(self, profile: UserProfile) -> None:
         """Add a validated profile to the manager.
         
@@ -29,7 +26,8 @@ class UserProfileManager:
             self.user_profiles[profile.email] = profile
             return
         raise ValueError(f"Failed to add profile for '{profile.email}'")
-
+    
+    # Get a profile by email
     def get_profile(self, email: str) -> UserProfile | None:
         """Retrieve a profile by email address.
         
@@ -40,7 +38,8 @@ class UserProfileManager:
             UserProfile if found, None otherwise
         """
         return self.user_profiles.get(email, None)
-
+    
+    # Remove a profile by email
     def remove_profile(self, email: str) -> None:
         """Remove a profile by email address.
         
