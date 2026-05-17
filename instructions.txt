@@ -6,8 +6,56 @@ He recently heard two user complaints:
 ● there is something wrong with the age calculation (some users said that their age
 was displayed incorrectly)
 
+self = 1945, reference_date = datetime.datetime(2026, 5, 16, 9, 42, 46, 446142)
+
+******
+probably something wrong with get_age from user_profile.py
+**Some people are listed older/younger than others because age calculation doesnt work?**
+code:
+    def get_age(self, reference_date: datetime | None = None) -> int:
+        """Calculate age based on date of birth.
+        
+        Args:
+            reference_date: Date to calculate age from (defaults to today)
+            
+        Returns:
+            Age in years as an integer
+        """
+        if reference_date is None:
+            reference_date = datetime.today()
+        dob_date = self.extract_date(self.dob)
+        age_result = reference_date.year - dob_date.year
+        if reference_date.month <= dob_date.month or (reference_date.month == dob_date.month and reference_date.day <= dob_date.day):
+            age_result -= 1
+        return age_result
+
+    def validate(self) -> bool:
+        """Validate all profile fields.
+        
+        Returns:
+            True if all fields are valid, False otherwise
+        """
+        validation_errors = {}
+        if not self.valid_dob(self.dob):
+            validation_errors["dob"] = ["Invalid date of birth format"]
+        if not self.valid_location(self.location):
+            validation_errors["location"] = ["Invalid location format"]
+        if not self.valid_name(self.name):
+            validation_errors["name"] = ["Invalid name format"]
+        if not self.valid_email(self.email):
+            validation_errors["email"] = ["Invalid email format"]
+        if not self.valid_password(self.password):
+            validation_errors["password"] = ["Invalid password format"]
+        if validation_errors:
+            print(f"validation failed for {', '.join(validation_errors.keys())}")
+            return False
+        return True
+******
+
 ● there is something wrong with the validation of correct passwords (some users
 said their passwords followed the rules while being flagged as invalid).
+
+***Digits starting with number or special characters are flagged as invald***
 
 Unfortunately, he didn’t pay attention in CS35L, so he didn’t use test-driven development
 (TDD) and he also did not write meaningful commit messages. It was too late when he

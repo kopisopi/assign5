@@ -1,0 +1,66 @@
+ PASSWORD ERROR********
+ 
+ def valid_password(password: str) -> bool:
+        """Validate password meets security requirements.
+        
+        Password must contain: uppercase, lowercase, digit, special char, min 8 chars.
+        
+        Args:
+            password: The password string to validate
+            
+        Returns:
+            True if password meets requirements, False otherwise
+        """
+        regex = r'^(?=^[A-Z])(?=.*[a-z]?)(?=.*\d)(?=.*[@$!%*?&])[A-z\d@$!%*?&]{8,}$'
+        return re.match(regex, password) is not None
+
+
+**Password Validation:**
+- Must be **at least 8 characters long**
+- Must contain one uppercase, one lowercase, one digit and one special character from: `@$!%*?&`
+- Examples:
+  - ✅ Valid: `"Secure123!"`, `"Password1@"`, `"A1@bcdefg"`
+  - ❌ Invalid: `"weak"` (too short), `"password123"` (no uppercase, no special char),
+   `"Password"` (no digit, no special char)
+
+REGEX TEST:
+url: https://regex101.com
+passwo1* //not valid
+Passwo1* //valid
+PASSWo1* //valid
+Pp1@$!%*?& //valid
+Pp1234456778* //valid
+*asdfsadDd12 //flagged not valid
+*pasWord123 //flagged not valid
+123passworD* //flagged not valid
+
+**DOESNT WORK**
+- if begins with number or special character even though it should be valid(?)
+
+AGE ERROR******
+  def sort_profiles_by_age(self):
+        """Sort profiles by age in descending order (oldest first).
+        
+        Returns:
+            List of UserProfile objects sorted by age
+        """
+        profiles = sorted(self.user_profiles.values(), key=lambda p: p.get_age(), reverse=True)
+        return profiles
+ 
+  def get_age(self, reference_date: datetime | None = None) -> int:
+        """Calculate age based on date of birth.
+        
+        Args:
+            reference_date: Date to calculate age from (defaults to today)
+            
+        Returns:
+            Age in years as an integer
+        """
+        if reference_date is None:
+            reference_date = datetime.today()
+        dob_date = self.extract_date(self.dob)
+        age_result = reference_date.year - dob_date.year
+        if reference_date.month <= dob_date.month or 
+        (reference_date.month == dob_date.month and reference_date.day <= dob_date.day):
+            age_result -= 1
+        return age_result
