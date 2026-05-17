@@ -1,26 +1,12 @@
 from __future__ import annotations
 
-import json
 import re
+import json
 from datetime import datetime
 from .location import Location
 
 class UserProfile:
-    """Represents a user profile with validation capabilities.
-    
-    Stores user information including name, email, password, date of birth,
-    and location. Provides methods for validation and data serialization.
-    """
     def __init__(self, name: str, email: str, password: str, dob: str, location: Location):
-        """Initialize a UserProfile instance.
-        
-        Args:
-            name: Full name (2-3 capitalized words)
-            email: Email address
-            password: Password meeting security requirements
-            dob: Date of birth (YYYY-MM-DD or MM/DD/YYYY)
-            location: Location object with city, state, country
-        """
         self.name = name
         self.email = email
         self.password = password
@@ -29,14 +15,6 @@ class UserProfile:
         
     @staticmethod
     def valid_name(name: str) -> bool:
-        """Validate that name has 2-3 parts, each starting with uppercase letter.
-        
-        Args:
-            name: The name string to validate
-            
-        Returns:
-            True if name is valid, False otherwise
-        """
         name_parts = name.strip().split()
         if 2 <= len(name_parts) <= 3:
             for name_part in name_parts:
@@ -48,14 +26,6 @@ class UserProfile:
     
     @staticmethod
     def valid_email(email: str) -> bool:
-        """Validate email format.
-        
-        Args:
-            email: The email string to validate
-            
-        Returns:
-            True if email format is valid, False otherwise
-        """
         email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         return re.match(email_pattern, email) is not None
     
@@ -66,14 +36,6 @@ class UserProfile:
     
     @staticmethod
     def valid_dob(dob: str) -> bool:
-        """Validate date of birth format (YYYY-MM-DD or MM/DD/YYYY).
-        
-        Args:
-            dob: The date of birth string to validate
-            
-        Returns:
-            True if date format is valid, False otherwise
-        """
         try:
             datetime.strptime(dob, "%Y-%m-%d")
             return True
@@ -83,25 +45,13 @@ class UserProfile:
                 return True
             except ValueError:
                 return False
-
+            
     @staticmethod
     def valid_location(location: Location) -> bool:
-        """Validate location format.
-        
-        Args:
-            location: Location object to validate
-            
-        Returns:
-            True if location format is valid, False otherwise
-        """
         return location.valid_location()
 
+    # Validate all profile fields
     def validate(self) -> bool:
-        """Validate all profile fields.
-        
-        Returns:
-            True if all fields are valid, False otherwise
-        """
         validation_errors = {}
         # Check name validity
         if not self.valid_name(self.name):
@@ -122,38 +72,20 @@ class UserProfile:
             print(f"validation failed for {', '.join(validation_errors.keys())}")
             return False
         return True
-
+    
+    # Extract date from string in multiple formats
     def extract_date(self, date_str: str) -> datetime:
-        """Extract datetime object from date string in supported formats.
-        
-        Supports: YYYY-MM-DD and MM/DD/YYYY formats.
-        
-        Args:
-            date_str: Date string to parse
-            
-        Returns:
-            datetime object parsed from the string
-            
-        Raises:
-            ValueError: If date format is not supported
-        """
+        # Try YYYY-MM-DD format first
         try:
             return datetime.strptime(date_str, "%Y-%m-%d")
         except ValueError:
+            # Try MM/DD/YYYY format
             try:
                 return datetime.strptime(date_str, "%m/%d/%Y")
             except ValueError:
                 raise ValueError(f"Invalid date format: {date_str}")
-
+    
     def get_age(self, reference_date: datetime | None = None) -> int:
-        """Calculate age based on date of birth.
-        
-        Args:
-            reference_date: Date to calculate age from (defaults to today)
-            
-        Returns:
-            Age in years as an integer
-        """
         if reference_date is None:
             reference_date = datetime.today()
         dob_date = self.extract_date(self.dob)
@@ -164,22 +96,14 @@ class UserProfile:
     
     @classmethod
     def from_json(cls, json_file: str) -> 'UserProfile':
-        """Create UserProfile instance from JSON file.
-        
-        Args:
-            json_file: Path to JSON file containing user profile data
-            
-        Returns:
-            UserProfile instance loaded from JSON
-        """
-        with open(json_file, mode='r') as file_handle:
+        with open(json_file, 'r') as file_handle:
             json_content = json.load(file_handle)
         return cls(
-            name=json_content["name"],
-            email=json_content["email"],
-            password=json_content["password"],
-            dob=json_content["dob"],
-            location=Location(**json_content["location"])
+            name=json_content['name'],
+            email=json_content['email'],
+            password=json_content['password'],
+            dob=json_content['dob'],
+            location=Location(**json_content['location'])
         )
         
     def to_json(self, json_file: str) -> None:
