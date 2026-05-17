@@ -1,0 +1,15 @@
+[
+
+    {
+        "name": "Alice Marie Johnson",
+        "email": "alice.johnson@email.com",
+        "password": "Password1!",
+        "dob": "1985-20-03",
+        "location": {
+            "city": "Seattle",
+            "state": "WA",
+            "country": "US"
+        }
+    }
+]
+
