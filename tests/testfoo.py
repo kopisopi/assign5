@@ -40,6 +40,7 @@ class TestUserPassword:
         assert UserProfile.valid_password("Secure12\t!") == False
 
         assert UserProfile.valid_password("Secure12\t!") == False
+        assert UserProfile.valid_password("Secure123!  ") == False
         
 
 
@@ -54,7 +55,19 @@ class TestUserPassword:
         assert UserProfile.valid_password("!!*****1Pd234") == True
         assert UserProfile.valid_password("p111111****jsdfsdfajjasdasodjasdaP") == True
 
-        
+        assert UserProfile.valid_password("Ab1!abcd") == True   # Exact minimum (8 chars)
+        assert UserProfile.valid_password("Ab1!abc") == False   # Too short (7 chars)
+
+        # Character Class Constraints
+        assert UserProfile.valid_password("Secure123#") == False # '#' is not in the allowed list
+        assert UserProfile.valid_password("Secure123!") == True  # '!' is allowed
+
+        # Structural/Positional Cases
+        assert UserProfile.valid_password("A1!bcdefg") == True  # Special/digits at the start
+        assert UserProfile.valid_password("abcdefA1!") == True  # Special/digits at the end
+
+        # Hidden Characters
+        assert UserProfile.valid_password("Secure123!\n") == False # Fails correctly thanks to \Z
         
 
 
