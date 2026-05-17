@@ -53,6 +53,7 @@ user-profiles --input input.json --output sorted_by_age.json --sort age
 ```
 user-profiles --input input.json --sort name
 ```
+user-profiles --input age_test.json --sort age
 
 If you're not in the pipenv shell, you can use:
 ```
@@ -71,6 +72,8 @@ python -m app.main --input input.json --output sorted_by_age.json --sort age
 **Example 2: Sort by name and output to the screen (stdout)**
 ```
 python -m app.main --input input.json --sort name
+
+python -m app.main --input age_test.json --sort age
 ```
 
 Alternatively, if you're not in the pipenv shell, you can use `pipenv run`:

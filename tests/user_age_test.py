@@ -11,9 +11,17 @@ from src import UserProfile
 
 class TestUserAge:
     # comment
-    def test_age_calculation(self):
-        assert UserProfile.valid_password("1!Password") == True
+    # def test_age_calculation(self):
+    #     assert UserProfile.valid_password("1!Password") == True
         # ^^placeholder
+    def test_age_calculation():
+        user = UserProfile("2000-05-16")
+        today = datetime(2026, 5, 16)
+        
+        calculated_age = user.get_age(reference_date=today)
+        
+
+        assert calculated_age == 26
 
 # def get_age(self, reference_date: datetime | None = None) -> int:
 
